@@ -19,3 +19,12 @@ router.get("/:id", async (req, res) => {
     res.json(err).status(500);
   }
 });
+
+router.post("/", async (req, res) => {
+  try {
+    const newUser = await User.create(req.body);
+    res.json(newUser).status(200);
+  } catch (err) {
+    res.json(err).status(500);
+  }
+});
