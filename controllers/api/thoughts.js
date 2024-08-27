@@ -67,3 +67,42 @@ router.delete("/:id", async (req, res) => {
     res.json(err).status(500);
   }
 });
+
+router.post("/:thoughtId/reactions", async (req, res) => {
+  try {
+    const { thoughtId } = req.params;
+    const thought = await Thought.findByIdAndUpdate(
+      thoughtId,
+      {
+        $addToSet: {
+          reactions: req.body,
+        },
+      },
+      {
+        new: true,
+      }
+    );
+    res.json(thought).status(200);
+  } catch (err) {
+    res.json(err).status(500);
+  }
+});
+
+router.delete("/:thoughtId/reactions/:reactionId", async (req, res) => {
+  try {
+    const { thoughtId, reactionId } = req.params;
+    const thought = await Thought.findById(thoughtId);
+
+    //deletes the reaction with the matching id from the array
+    //and then saves the document.
+    thought.reactions.id(reactionId).deleteOne();
+    await thought.save();
+
+    res.json(thought).status(200);
+  } catch (error) {
+    res.json(error).status(500);
+    console.log(error);
+  }
+});
+
+module.exports = router;
