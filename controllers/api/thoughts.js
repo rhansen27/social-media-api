@@ -36,6 +36,23 @@ router.post("/", async (req, res) => {
         new: true,
       }
     );
+    res.json(thought).status(200);
+  } catch (err) {
+    res.json(err).status(500);
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const thought = await Thought.findByIdAndUpdate(
+      id,
+      {
+        thoughtText: req.body.thoughtText,
+      },
+      { new: true }
+    );
+    res.json(thought).status(200);
   } catch (err) {
     res.json(err).status(500);
   }
