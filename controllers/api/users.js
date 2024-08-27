@@ -46,7 +46,7 @@ router.delete("/:id", async (req, res) => {
     const thougts = await Thought.deleteMany({ username: user.username });
     res
       .send(
-        `user ${user.username} and ${thoughts.deletedCount} thoughts deleted`
+        `user ${user.username} and ${thougts.deletedCount} thoughts deleted`
       )
       .status(200);
   } catch (err) {
