@@ -44,7 +44,28 @@ router.delete("/:id", async (req, res) => {
     const { id } = req.params;
     const user = await User.findByIdAndDelete(id);
     const thougts = await Thought.deleteMany({ username: user.username });
-    res.json(user).status(200);
+    res
+      .send(
+        `user ${user.username} and ${thoughts.deletedCount} thoughts deleted`
+      )
+      .status(200);
+  } catch (err) {
+    res.json(err).status(500);
+  }
+});
+
+router.post("/:userId/friends/:friendId", async (req, res) => {
+  const { userId, friendId } = req.params;
+  try {
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { friends: friendId },
+      },
+      {
+        new: true,
+      }
+    );
   } catch (err) {
     res.json(err).status(500);
   }
