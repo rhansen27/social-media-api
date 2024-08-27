@@ -57,3 +57,13 @@ router.put("/:id", async (req, res) => {
     res.json(err).status(500);
   }
 });
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const thought = await Thought.findByIdAndDelete(id);
+    res.json({ ...deleteModel._doc, message: "Thought deleted" }).status(200);
+  } catch (err) {
+    res.json(err).status(500);
+  }
+});
