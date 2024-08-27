@@ -9,3 +9,13 @@ router.get("/", async (req, res) => {
     res.json(err).status(500);
   }
 });
+
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({ _id: id });
+    res.json(user).status(200);
+  } catch (err) {
+    res.json(err).status(500);
+  }
+});
