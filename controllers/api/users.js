@@ -38,3 +38,14 @@ router.put("/:id", async (req, res) => {
     res.json(err).status(500);
   }
 });
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id);
+    const thougts = await Thought.deleteMany({ username: user.username });
+    res.json(user).status(200);
+  } catch (err) {
+    res.json(err).status(500);
+  }
+});
