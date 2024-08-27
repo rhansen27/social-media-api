@@ -28,3 +28,13 @@ router.post("/", async (req, res) => {
     res.json(err).status(500);
   }
 });
+
+router.put("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findByIdAndUpdate(id, req.body, { new: true });
+    res.json(user).status(200);
+  } catch (err) {
+    res.json(err).status(500);
+  }
+});
