@@ -70,3 +70,20 @@ router.post("/:userId/friends/:friendId", async (req, res) => {
     res.json(err).status(500);
   }
 });
+
+router.delete("/:userId/friends/:friendId", async (req, res) => {
+  const { userId, friendId } = req.params;
+  try {
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        $pull: { friends: friendId },
+      },
+      { new: true }
+    );
+  } catch (err) {
+    res.json(err).status(500);
+  }
+});
+
+module.exports = router;
